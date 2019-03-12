@@ -25,7 +25,9 @@ def two_hidden_layers(X, n_hidden1=300, n_hidden2=100, n_outputs=10, activation_
     return logits
 
 
-def mlp_network(layers, learning_rate, epochs, batches, activation_func):
+def mlp_network(layers, learning_rate, epochs, batches, activation_func, seed):
+    tf.random.set_random_seed(seed)
+
     n_inputs = 28 * 28
     learning_rate = learning_rate
     n_epochs = epochs
@@ -75,24 +77,23 @@ def mlp_network(layers, learning_rate, epochs, batches, activation_func):
 
 def main(learning_rate, epochs, batches):
     layers = 1
+    seed = 420
 
     print("Perceptron Network")
-    # mlp_network(layers, learning_rate, epochs, batches, activation_func=heavy_side)
+    mlp_network(layers, learning_rate, epochs, batches, heavy_side, seed)
 
     print("Sigmoid Network")
-    mlp_network(layers, learning_rate, epochs, batches, activation_func=tf.nn.sigmoid)
+    mlp_network(layers, learning_rate, epochs, batches, tf.nn.sigmoid, seed)
 
     print("Relu Network")
-    mlp_network(layers, learning_rate, epochs, batches, activation_func=tf.nn.relu)
+    mlp_network(layers, learning_rate, epochs, batches, tf.nn.relu, seed)
 
     print("Leaky Relu Network")
-    mlp_network(layers, learning_rate, epochs, batches, activation_func=leaky_relu)
+    mlp_network(layers, learning_rate, epochs, batches, leaky_relu, seed)
 
     print("Elu Network")
-    mlp_network(layers, learning_rate, epochs, batches, activation_func=tf.nn.elu)
+    mlp_network(layers, learning_rate, epochs, batches, tf.nn.elu, seed)
 
 
 if __name__ == "__main__":
-    # main(0.1, 1, 100)
-    main(0.1, 10, 100)
-    # main(0.1, 100, 100)
+    main(0.1, 1, 100)
