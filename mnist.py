@@ -1,12 +1,32 @@
 import argparse
 
+from mnist_nn import *
+
 
 def network_one(learning_rate, epochs, batches):
+    print("Perceptron Network with One Hidden Layer")
     print("Combination One with learning rate: {} epochs: {} and batch size: {}".format(learning_rate, epochs, batches))
+    mlp_network(1, learning_rate, epochs, batches, activation_func=heavy_side)
 
 
 def network_two(learning_rate, epochs, batches):
+    print("Sigmoid Network with One Hidden Layer")
     print("Combination Two with learning rate: {} epochs: {} and batch size: {}".format(learning_rate, epochs, batches))
+    mlp_network(1, learning_rate, epochs, batches, activation_func=tf.nn.sigmoid)
+
+
+def network_three(learning_rate, epochs, batches):
+    print("Perceptron Network with Two Hidden Layers")
+    print(
+        "Combination Three with learning rate: {} epochs: {} and batch size: {}".format(learning_rate, epochs, batches))
+    mlp_network(2, learning_rate, epochs, batches, activation_func=heavy_side)
+
+
+def network_four(learning_rate, epochs, batches):
+    print("Sigmoid Network with Two Hidden Layer")
+    print(
+        "Combination Four with learning rate: {} epochs: {} and batch size: {}".format(learning_rate, epochs, batches))
+    mlp_network(2, learning_rate, epochs, batches, activation_func=tf.nn.sigmoid)
 
 
 def main(combination, learning_rate, epochs, batches, seed):
@@ -17,6 +37,10 @@ def main(combination, learning_rate, epochs, batches, seed):
         network_one(learning_rate, epochs, batches)
     if int(combination) == 2:
         network_two(learning_rate, epochs, batches)
+    if int(combination) == 3:
+        network_three(learning_rate, epochs, batches)
+    if int(combination) == 4:
+        network_four(learning_rate, epochs, batches)
 
     print("Done!")
 
@@ -46,4 +70,4 @@ if __name__ == "__main__":
     batches = check_param_is_numeric("batches", args.batches)
     seed = check_param_is_numeric("seed", args.seed)
 
-    main(combination, learning_rate, epochs, batches, seed)
+    main(combination, learning_rate, int(epochs), int(batches), int(seed))
