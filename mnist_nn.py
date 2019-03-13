@@ -67,7 +67,8 @@ def mlp_network(layers, learning_rate, epochs, batches, activation_func, seed):
                 acc_train = accuracy.eval(feed_dict={X: X_batch, y: y_batch})
                 acc_val = accuracy.eval(feed_dict={X: mnist.validation.images, y: mnist.validation.labels})
 
-                print("'\r{0}".format(epoch), "Train Accuracy: {:3f}  Validation Accuracy: {:3f}".format(acc_train, acc_val), end='')
+                print("'\r{0}".format(epoch),
+                      "Train Accuracy: {:3f}  Validation Accuracy: {:3f}".format(acc_train, acc_val), end='')
 
             # save_path = saver.save(sess, "tmp/my_model_final.ckpt")
 
