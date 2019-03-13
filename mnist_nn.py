@@ -34,7 +34,7 @@ def mlp_network(layers, learning_rate, epochs, batches, activation_func, seed):
     batch_size = batches
 
     X = tf.placeholder(tf.float32, shape=(None, n_inputs), name="X")
-    y = tf.placeholder(tf.int64, shape=(None), name="y")
+    y = tf.placeholder(tf.int64, shape=None, name="y")
 
     if layers == 1:
         logits = one_hidden_layers(X=X, activation_func=activation_func)
@@ -73,7 +73,7 @@ def mlp_network(layers, learning_rate, epochs, batches, activation_func, seed):
             # save_path = saver.save(sess, "tmp/my_model_final.ckpt")
 
         acc_test = accuracy.eval(feed_dict={X: mnist.test.images, y: mnist.test.labels})
-        print("Test Accuracy: {:3f}".format(acc_test))
+        print("\nTest Accuracy: {:3f}".format(acc_test))
 
 
 def main(learning_rate, epochs, batches):
@@ -97,4 +97,4 @@ def main(learning_rate, epochs, batches):
 
 
 if __name__ == "__main__":
-    main(0.1, 1, 100)
+    main(0.05, 10, 100)
