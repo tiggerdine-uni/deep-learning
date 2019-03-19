@@ -22,6 +22,8 @@ import tensorflow as tf
 
 tf.logging.set_verbosity(tf.logging.INFO)
 
+learning_r8 = 0
+
 
 def cnn_model_fn(features, labels, mode):
     """Model function for CNN."""
@@ -101,7 +103,7 @@ def cnn_model_fn(features, labels, mode):
 
     # Configure the Training Op (for TRAIN mode)
     if mode == tf.estimator.ModeKeys.TRAIN:
-        optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.001)
+        optimizer = tf.train.GradientDescentOptimizer(learning_rate=learning_r8)  # 0.001
         train_op = optimizer.minimize(
             loss=loss,
             global_step=tf.train.get_global_step())
@@ -115,7 +117,15 @@ def cnn_model_fn(features, labels, mode):
         mode=mode, loss=loss, eval_metric_ops=eval_metric_ops)
 
 
-def main(unused_argv):
+# TODO add layers and activation_func
+def cnn(learning_rate, epochs, batches, seed):
+    global learning_r8
+    learning_r8 = learning_rate
+
+    # TODO fix
+    np.random.seed(seed)
+    tf.random.set_random_seed(seed)
+
     # Load training and eval data
     mnist = tf.contrib.learn.datasets.load_dataset("mnist")
     train_data = mnist.train.images  # Returns np.array
@@ -137,12 +147,12 @@ def main(unused_argv):
     train_input_fn = tf.compat.v1.estimator.inputs.numpy_input_fn(
         x={"x": train_data},
         y=train_labels,
-        batch_size=100,
+        batch_size=batches,  # 100
         num_epochs=None,
         shuffle=True)
     mnist_classifier.train(
         input_fn=train_input_fn,
-        steps=20000,
+        steps=epochs,  # 20000
         hooks=[logging_hook])
 
     # Evaluate the model and print results
@@ -153,4 +163,5 @@ def main(unused_argv):
 
 
 if __name__ == "__main__":
-    tf.app.run()
+    # tf.app.run()
+    cnn(0.001, 20000, 100, 420)
