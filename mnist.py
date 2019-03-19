@@ -1,6 +1,6 @@
 import argparse
 
-from mnist_nn import *
+from mnist_mlp import *
 
 
 def network_one(learning_rate, epochs, batches):

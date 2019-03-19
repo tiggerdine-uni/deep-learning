@@ -80,21 +80,21 @@ def main(learning_rate, epochs, batches):
     layers = 1
     seed = 420
 
-    print("Perceptron Network")
-    mlp_network(layers, learning_rate, epochs, batches, heavy_side, seed)
+    # print("Perceptron Network")
+    # mlp_network(layers, learning_rate, epochs, batches, heavy_side, seed)
 
-    print("Sigmoid Network")
-    mlp_network(layers, learning_rate, epochs, batches, tf.nn.sigmoid, seed)
+    # print("Sigmoid Network")
+    # mlp_network(layers, learning_rate, epochs, batches, tf.nn.sigmoid, seed)
 
     print("Relu Network")
     mlp_network(layers, learning_rate, epochs, batches, tf.nn.relu, seed)
 
-    print("Leaky Relu Network")
-    mlp_network(layers, learning_rate, epochs, batches, leaky_relu, seed)
+    # print("Leaky Relu Network")
+    # mlp_network(layers, learning_rate, epochs, batches, leaky_relu, seed)
 
-    print("Elu Network")
-    mlp_network(layers, learning_rate, epochs, batches, tf.nn.elu, seed)
+    # print("Elu Network")
+    # mlp_network(layers, learning_rate, epochs, batches, tf.nn.elu, seed)
 
 
 if __name__ == "__main__":
-    main(0.05, 10, 100)
+    main(0.4, 10, 50)
