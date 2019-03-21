@@ -58,17 +58,32 @@ def mlp_network(layers, learning_rate, epochs, batches, activation_func, seed):
 
     mnist = input_data.read_data_sets("/tmp/data")
 
+    from datetime import datetime
+
+    now = datetime.utcnow().strftime("%Y%m%d%H%M%S")
+    root_logdir = "tf_logs"
+    logdir = "{}/run-{}/".format(root_logdir, now)
+
+    accuracy_summary = tf.summary.scalar('Accuracy', accuracy)
+    # TODO close
+    file_writer = tf.summary.FileWriter(logdir, tf.get_default_graph())
+
     with tf.Session() as sess:
         init.run()
+        counter = 0
         for epoch in range(n_epochs):
             for iteration in range(mnist.train.num_examples // batch_size):
+                counter += 1
                 X_batch, y_batch = mnist.train.next_batch(batch_size)
                 sess.run(training_op, feed_dict={X: X_batch, y: y_batch})
                 acc_train = accuracy.eval(feed_dict={X: X_batch, y: y_batch})
-                acc_val = accuracy.eval(feed_dict={X: mnist.validation.images, y: mnist.validation.labels})
+                acc_val = accuracy_summary.eval(feed_dict={X: mnist.validation.images, y: mnist.validation.labels})
 
-                print("'\r{0}".format(epoch),
-                      "Train Accuracy: {:3f}  Validation Accuracy: {:3f}".format(acc_train, acc_val), end='')
+                # print("'\r{0}".format(epoch),
+                #       "Train Accuracy: {:3f}  Validation Accuracy: {:3f}".format(acc_train, acc_val), end='')
+
+                if counter % 10 == 0:
+                    file_writer.add_summary(acc_val, counter)
 
             save_path = saver.save(sess, "tmp/my_model_final.ckpt")
 
@@ -97,4 +112,4 @@ def main(learning_rate, epochs, batches):
 
 
 if __name__ == "__main__":
-    main(0.4, 10, 50)
+    main(0.1, 2, 50)
