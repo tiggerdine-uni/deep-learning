@@ -65,7 +65,6 @@ def mlp_network(layers, learning_rate, epochs, batches, activation_func, seed):
     logdir = "{}/run-{}/".format(root_logdir, now)
 
     accuracy_summary = tf.summary.scalar('Accuracy', accuracy)
-    # TODO close
     file_writer = tf.summary.FileWriter(logdir, tf.get_default_graph())
 
     with tf.Session() as sess:
@@ -92,6 +91,7 @@ def mlp_network(layers, learning_rate, epochs, batches, activation_func, seed):
 
     file_writer.close()
 
+
 def main(learning_rate, epochs, batches):
     layers = 1
     seed = 420
@@ -113,4 +113,4 @@ def main(learning_rate, epochs, batches):
 
 
 if __name__ == "__main__":
-    main(0.1, 2, 50)
+    main(0.4, 10, 50)
