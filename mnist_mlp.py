@@ -90,6 +90,7 @@ def mlp_network(layers, learning_rate, epochs, batches, activation_func, seed):
         acc_test = accuracy.eval(feed_dict={X: mnist.test.images, y: mnist.test.labels})
         print("\nTest Accuracy: {:3f}".format(acc_test))
 
+    file_writer.close()
 
 def main(learning_rate, epochs, batches):
     layers = 1

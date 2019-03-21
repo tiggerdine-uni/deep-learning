@@ -164,4 +164,4 @@ def cnn(learning_rate, epochs, batches, seed):
 
 if __name__ == "__main__":
     # tf.app.run()
-    cnn(0.001, 20000, 100, 420)
+    cnn(0.25, 10000, 200, 420)
