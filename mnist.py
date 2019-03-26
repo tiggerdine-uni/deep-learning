@@ -1,46 +1,38 @@
 import argparse
 
+from mnist_cnn import cnn
 from mnist_mlp import *
 
 
-def network_one(learning_rate, epochs, batches):
-    print("Perceptron Network with One Hidden Layer")
-    print("Combination One with learning rate: {} epochs: {} and batch size: {}".format(learning_rate, epochs, batches))
-    mlp_network(1, learning_rate, epochs, batches, activation_func=heavy_side)
+def network_one(learning_rate, epochs, batches, seed):
+    print("Perceptron network with sigmoid activation function")
+    print("Combination one with learning rate: {} epochs: {} and batch size: {}".format(learning_rate, epochs, batches))
+    mlp_network(1, learning_rate, epochs, batches, tf.nn.sigmoid, seed)
 
 
-def network_two(learning_rate, epochs, batches):
-    print("Sigmoid Network with One Hidden Layer")
-    print("Combination Two with learning rate: {} epochs: {} and batch size: {}".format(learning_rate, epochs, batches))
-    mlp_network(1, learning_rate, epochs, batches, activation_func=tf.nn.sigmoid)
+def network_two(learning_rate, epochs, batches, seed):
+    print("Perceptron network with ReLU activation function")
+    print("Combination two with learning rate: {} epochs: {} and batch size: {}".format(learning_rate, epochs, batches))
+    mlp_network(1, learning_rate, epochs, batches, tf.nn.relu, seed)
 
 
-def network_three(learning_rate, epochs, batches):
-    print("Perceptron Network with Two Hidden Layers")
+def network_three(learning_rate, epochs, batches, seed):
+    print("Convolutional neural network")
     print(
-        "Combination Three with learning rate: {} epochs: {} and batch size: {}".format(learning_rate, epochs, batches))
-    mlp_network(2, learning_rate, epochs, batches, activation_func=heavy_side)
-
-
-def network_four(learning_rate, epochs, batches):
-    print("Sigmoid Network with Two Hidden Layer")
-    print(
-        "Combination Four with learning rate: {} epochs: {} and batch size: {}".format(learning_rate, epochs, batches))
-    mlp_network(2, learning_rate, epochs, batches, activation_func=tf.nn.sigmoid)
+        "Combination three with learning rate: {} epochs: {} and batch size: {}".format(learning_rate, epochs, batches))
+    cnn(learning_rate, epochs, batches, seed)
 
 
 def main(combination, learning_rate, epochs, batches, seed):
-    # Set Seed
+    # Print seed
     print("Seed: {}".format(seed))
 
     if int(combination) == 1:
-        network_one(learning_rate, epochs, batches)
+        network_one(learning_rate, epochs, batches, seed)
     if int(combination) == 2:
-        network_two(learning_rate, epochs, batches)
+        network_two(learning_rate, epochs, batches, seed)
     if int(combination) == 3:
-        network_three(learning_rate, epochs, batches)
-    if int(combination) == 4:
-        network_four(learning_rate, epochs, batches)
+        network_three(learning_rate, epochs, batches, seed)
 
     print("Done!")
 
