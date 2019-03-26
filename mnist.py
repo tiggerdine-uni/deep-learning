@@ -5,9 +5,10 @@ from mnist_mlp import *
 
 
 def network_one(learning_rate, epochs, batches, seed):
-    print("Perceptron network with sigmoid activation function")
-    print("Combination one with learning rate: {} epochs: {} and batch size: {}".format(learning_rate, epochs, batches))
-    mlp_network(1, learning_rate, epochs, batches, tf.nn.sigmoid, seed)
+    print("Convolutional neural network")
+    print(
+        "Combination three with learning rate: {} epochs: {} and batch size: {}".format(learning_rate, epochs, batches))
+    cnn(learning_rate, epochs, batches, seed)
 
 
 def network_two(learning_rate, epochs, batches, seed):
@@ -17,10 +18,9 @@ def network_two(learning_rate, epochs, batches, seed):
 
 
 def network_three(learning_rate, epochs, batches, seed):
-    print("Convolutional neural network")
-    print(
-        "Combination three with learning rate: {} epochs: {} and batch size: {}".format(learning_rate, epochs, batches))
-    cnn(learning_rate, epochs, batches, seed)
+    print("Perceptron network with sigmoid activation function")
+    print("Combination one with learning rate: {} epochs: {} and batch size: {}".format(learning_rate, epochs, batches))
+    mlp_network(1, learning_rate, epochs, batches, tf.nn.sigmoid, seed)
 
 
 def main(combination, learning_rate, epochs, batches, seed):
