@@ -25,7 +25,7 @@ def two_hidden_layers(X, n_hidden1=300, n_hidden2=100, n_outputs=10, activation_
     return logits
 
 
-def mlp_network(layers, learning_rate, epochs, batches, activation_func, seed):
+def mlp_network(layers, learning_rate, epochs, batches, activation_func, seed, combination):
     tf.random.set_random_seed(seed)
 
     n_inputs = 28 * 28
@@ -58,11 +58,14 @@ def mlp_network(layers, learning_rate, epochs, batches, activation_func, seed):
 
     mnist = input_data.read_data_sets("/tmp/data")
 
+
     from datetime import datetime
 
     now = datetime.utcnow().strftime("%Y%m%d%H%M%S")
+
+    save_string = "mnist-" + str(combination) + "-" + str(learning_rate) + "-" + str(epochs) + "-" + str(batches) + "-" + str(seed)
     root_logdir = "tf_logs"
-    logdir = "{}/run-{}/".format(root_logdir, now)
+    logdir = "{}/{}-{}".format(root_logdir, save_string, now)
 
     accuracy_summary = tf.summary.scalar('Accuracy', accuracy)
     file_writer = tf.summary.FileWriter(logdir, tf.get_default_graph())
@@ -84,7 +87,8 @@ def mlp_network(layers, learning_rate, epochs, batches, activation_func, seed):
                 if counter % 10 == 0:
                     file_writer.add_summary(acc_val, counter)
 
-            save_path = saver.save(sess, "tmp/my_model_final.ckpt")
+            #TODO Just manually copy paste the final 2 checkpoint files into a clear directory and rename
+            saver.save(sess, "tmp/" + save_string + "")
 
         acc_test = accuracy.eval(feed_dict={X: mnist.test.images, y: mnist.test.labels})
         print("\nTest Accuracy: {:3f}".format(acc_test))
@@ -103,7 +107,7 @@ def main(learning_rate, epochs, batches):
     # mlp_network(layers, learning_rate, epochs, batches, tf.nn.sigmoid, seed)
 
     print("Relu Network")
-    mlp_network(layers, learning_rate, epochs, batches, tf.nn.relu, seed)
+    mlp_network(layers, learning_rate, epochs, batches, tf.nn.relu, seed, 0)
 
     # print("Leaky Relu Network")
     # mlp_network(layers, learning_rate, epochs, batches, leaky_relu, seed)
@@ -113,4 +117,4 @@ def main(learning_rate, epochs, batches):
 
 
 if __name__ == "__main__":
-    main(0.4, 10, 50)
+    main(0.4, 1, 50)

@@ -8,19 +8,19 @@ def network_one(learning_rate, epochs, batches, seed):
     print("Convolutional neural network")
     print(
         "Combination three with learning rate: {} epochs: {} and batch size: {}".format(learning_rate, epochs, batches))
-    cnn(learning_rate, epochs, batches, seed)
+    cnn(learning_rate, epochs, batches, seed, 1)
 
 
 def network_two(learning_rate, epochs, batches, seed):
     print("Perceptron network with ReLU activation function")
     print("Combination two with learning rate: {} epochs: {} and batch size: {}".format(learning_rate, epochs, batches))
-    mlp_network(1, learning_rate, epochs, batches, tf.nn.relu, seed)
+    mlp_network(1, learning_rate, epochs, batches, tf.nn.relu, seed, 2)
 
 
 def network_three(learning_rate, epochs, batches, seed):
     print("Perceptron network with sigmoid activation function")
     print("Combination one with learning rate: {} epochs: {} and batch size: {}".format(learning_rate, epochs, batches))
-    mlp_network(1, learning_rate, epochs, batches, tf.nn.sigmoid, seed)
+    mlp_network(1, learning_rate, epochs, batches, tf.nn.sigmoid, 3)
 
 
 def main(combination, learning_rate, epochs, batches, seed):
@@ -28,11 +28,11 @@ def main(combination, learning_rate, epochs, batches, seed):
     print("Seed: {}".format(seed))
 
     if int(combination) == 1:
-        network_one(learning_rate, epochs, batches, seed)
+        network_one(learning_rate, epochs, batches, seed, combination)
     if int(combination) == 2:
-        network_two(learning_rate, epochs, batches, seed)
+        network_two(learning_rate, epochs, batches, seed, combination)
     if int(combination) == 3:
-        network_three(learning_rate, epochs, batches, seed)
+        network_three(learning_rate, epochs, batches, seed, combination)
 
     print("Done!")
 

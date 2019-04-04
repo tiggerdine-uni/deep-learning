@@ -118,7 +118,7 @@ def cnn_model_fn(features, labels, mode):
 
 
 # TODO add layers and activation_func
-def cnn(learning_rate, epochs, batches, seed):
+def cnn(learning_rate, epochs, batches, seed, combination):
     global learning_r8
     learning_r8 = learning_rate
 
@@ -133,9 +133,19 @@ def cnn(learning_rate, epochs, batches, seed):
     eval_data = mnist.test.images  # Returns np.array
     eval_labels = np.asarray(mnist.test.labels, dtype=np.int32)
 
+    from datetime import datetime
+
+    now = datetime.utcnow().strftime("%Y%m%d%H%M%S")
+
+    save_string = "mnist-" + str(combination) + "-" + str(learning_rate) + "-" + str(epochs) + "-" + str(batches) + "-" + str(seed)
+    root_logdir = "tf_logs"
+    #TODO This is tensor board directory
+    logdir = "{}/{}-{}".format(root_logdir, save_string, now)
+
+
     # Create the Estimator
     mnist_classifier = tf.estimator.Estimator(
-        model_fn=cnn_model_fn, model_dir="tmp/mnist_convnet_model")
+        model_fn=cnn_model_fn, model_dir="tmp/" + save_string + "")
 
     # Set up logging for predictions
     # Log the values in the "Softmax" tensor with label "probabilities"
@@ -164,4 +174,4 @@ def cnn(learning_rate, epochs, batches, seed):
 
 if __name__ == "__main__":
     # tf.app.run()
-    cnn(0.25, 10000, 200, 420)
+    cnn(0.25, 1, 200, 420, 0)
