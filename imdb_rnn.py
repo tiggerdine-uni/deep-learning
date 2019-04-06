@@ -18,7 +18,7 @@ def rnn_network(learning_rate, epochs, batches, seed):
     tf.set_random_seed(seed)
 
     # load the dataset but only keep the top n words, zero the rest
-    top_words = 5000
+    top_words = 10000 #defaulted to 5000
     (X_train, y_train), (X_test, y_test) = imdb.load_data(num_words=top_words)
 
     # truncate and pad input sequences
