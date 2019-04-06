@@ -39,7 +39,7 @@ test_data = keras.preprocessing.sequence.pad_sequences(test_data,
                                                        padding='post',
                                                        maxlen=500)
 
-#TODO ^ Above here is common
+#TODO ^ Above here is common (maybe)
 
 # input shape is the vocabulary count used for the movie reviews (10,000 words)
 vocab_size = 10000
@@ -54,9 +54,10 @@ model.add(keras.layers.Dense(1, activation='sigmoid'))
 #model.summary()
 
 #Make a new optimizer
-sgd = keras.optimizers.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
+sgd = keras.optimizers.SGD(lr=0.4, decay=1e-6, momentum=0.9, nesterov=True)
 
 #TODO Replace adam with sgd
+#adam please help us
 model.compile(optimizer='adam',
               loss='binary_crossentropy',
               metrics=['acc'])

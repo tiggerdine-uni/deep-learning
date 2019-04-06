@@ -43,7 +43,7 @@ def mlp_network(layers, learning_rate, epochs, batches, activation_func, seed, c
 
     with tf.name_scope("loss"):
         xentropy = tf.nn.sparse_softmax_cross_entropy_with_logits(labels=y, logits=logits)
-        loss = tf.reduce_mean(xentropy, name="loss")
+        loss = tf.reduce_mean(xentropy)
 
     with tf.name_scope("train"):
         optimizer = tf.train.GradientDescentOptimizer(learning_rate)
@@ -67,7 +67,11 @@ def mlp_network(layers, learning_rate, epochs, batches, activation_func, seed, c
     root_logdir = "tf_logs"
     logdir = "{}/{}-{}".format(root_logdir, save_string, now)
 
-    accuracy_summary = tf.summary.scalar('Accuracy', accuracy)
+    train_accuracy = tf.summary.scalar('Train Accuracy', accuracy)
+    validation_accuracy = tf.summary.scalar('Validation Accuracy', accuracy)
+    tf.summary.scalar('Loss', loss)
+
+    merged_summary_op = tf.summary.merge_all()
     file_writer = tf.summary.FileWriter(logdir, tf.get_default_graph())
 
     with tf.Session() as sess:
@@ -77,15 +81,15 @@ def mlp_network(layers, learning_rate, epochs, batches, activation_func, seed, c
             for iteration in range(mnist.train.num_examples // batch_size):
                 counter += 1
                 X_batch, y_batch = mnist.train.next_batch(batch_size)
-                sess.run(training_op, feed_dict={X: X_batch, y: y_batch})
-                acc_train = accuracy.eval(feed_dict={X: X_batch, y: y_batch})
-                acc_val = accuracy_summary.eval(feed_dict={X: mnist.validation.images, y: mnist.validation.labels})
+                _, c, summary = sess.run([training_op, loss, merged_summary_op], feed_dict={X: X_batch, y: y_batch})
+                acc_train = train_accuracy.eval(feed_dict={X: X_batch, y: y_batch})
+                acc_val = validation_accuracy.eval(feed_dict={X: mnist.validation.images, y: mnist.validation.labels})
 
                 # print("'\r{0}".format(epoch),
                 #       "Train Accuracy: {:3f}  Validation Accuracy: {:3f}".format(acc_train, acc_val), end='')
 
                 if counter % 10 == 0:
-                    file_writer.add_summary(acc_val, counter)
+                    file_writer.add_summary(summary, counter)
 
             #TODO Just manually copy paste the final 2 checkpoint files into a clear directory and rename
             saver.save(sess, "tmp/" + save_string + "")
