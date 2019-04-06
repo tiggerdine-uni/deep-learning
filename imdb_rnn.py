@@ -30,11 +30,11 @@ def rnn_network(learning_rate, epochs, batches, seed):
     embedding_vecor_length = 32
     model = Sequential()
     model.add(Embedding(top_words, embedding_vecor_length, input_length=max_review_length))
-    model.add(LSTM(100, dropout=0.2, recurrent_dropout=0.2))
+    model.add(LSTM(100, dropout=0.0, recurrent_dropout=0.0))
     model.add(Dense(1, activation='sigmoid'))
 
     from keras.optimizers import Adam
-    model.compile(loss='binary_crossentropy', optimizer=Adam(lr=learning_rate), metrics=['accuracy']) #lr0.001
+    model.compile(loss='mean_squared_error', optimizer=Adam(lr=learning_rate), metrics=['accuracy']) #lr0.001
 
     print("'\r{0}".format(model.summary()), end='')
     model.fit(X_train, y_train, epochs=epochs, batch_size=batches)    #epochs 3, batch_size 64
@@ -45,8 +45,8 @@ def rnn_network(learning_rate, epochs, batches, seed):
 
 
 def main(learning_rate, epochs, batches, seed):
-    rnn_network(0.001, 3, 64, 420)
+    rnn_network(learning_rate, epochs, batches, seed)
 
 
 if __name__ == "__main__":
-    main(0.001, 3, 64, 420)
+    rnn_network(0.01, 3, 64, 420)

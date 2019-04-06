@@ -63,7 +63,7 @@ def mlp_network(layers, learning_rate, epochs, batches, activation_func, seed, c
 
     now = datetime.utcnow().strftime("%Y%m%d%H%M%S")
 
-    save_string = "mnist-" + str(combination) + "-" + str(learning_rate) + "-" + str(epochs) + "-" + str(batches) + "-" + str(seed)
+    save_string = "mnist-mlp-" + str(combination) + "-" + str(learning_rate) + "-" + str(epochs) + "-" + str(batches) + "-" + str(seed)
     root_logdir = "tf_logs"
     logdir = "{}/{}-{}".format(root_logdir, save_string, now)
 
