@@ -54,10 +54,16 @@ def mlp_network(learning_rate, epochs, batches, seed, combination):
 
     # model.summary()
 
-    # TODO fix
     model.compile(optimizer=keras.optimizers.Adam(lr=learning_rate),  # 0.001
                   loss='binary_crossentropy',
                   metrics=['acc'])
+
+    from datetime import datetime
+    now = datetime.utcnow().strftime("%Y%m%d%H%M%S")
+    save_string = "imdb-mlp-" + str(combination) + "-" + str(learning_rate) + "-" + str(epochs) + "-" + str(batches) + "-" + str(seed)
+    root_logdir = "tf_logs"
+    logdir = "{}/{}-{}".format(root_logdir, save_string, now)
+    tensorboard = keras.callbacks.TensorBoard(log_dir=logdir)
 
     x_val = train_data[:10000]
     partial_x_train = train_data[10000:]
@@ -65,15 +71,15 @@ def mlp_network(learning_rate, epochs, batches, seed, combination):
     y_val = train_labels[:10000]
     partial_y_train = train_labels[10000:]
 
-    history = model.fit(partial_x_train,
-                        partial_y_train,
-                        epochs=epochs,  # 40
-                        batch_size=batches,  # 512
-                        validation_data=(x_val, y_val),
-                        verbose=1)
+    model.fit(partial_x_train,
+              partial_y_train,
+              epochs=epochs,  # 40
+              batch_size=batches,  # 512
+              validation_data=(x_val, y_val),
+              callbacks=[tensorboard],
+              verbose=1)
 
     saver = tf.train.Saver()
-    save_string = "imdb-mlp-" + str(combination) + "-" + str(learning_rate) + "-" + str(epochs) + "-" + str(batches) + "-" + str(seed)
     sess = keras.backend.get_session()
     saver.save(sess, 'tmp/' + save_string + '/' + save_string + '.ckpt')
 
@@ -83,7 +89,7 @@ def mlp_network(learning_rate, epochs, batches, seed, combination):
 
 
 if __name__ == "__main__":
-    mlp_network(0.001, 1, 512, 420, 0)
+    mlp_network(0.001, 10, 512, 420, 0)
 
 
 

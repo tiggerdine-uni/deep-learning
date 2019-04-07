@@ -3,6 +3,7 @@ import numpy
 #uses keras which isnt in venv by default :)
 import tensorflow as tf
 from keras import backend
+from keras.callbacks import TensorBoard
 from keras.datasets import imdb
 from keras.models import Sequential
 from keras.layers import Dense
@@ -14,7 +15,7 @@ from keras.preprocessing import sequence
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 
-def rnn_network(learning_rate, epochs, batches, seed):
+def rnn_network(combination, learning_rate, epochs, batches, seed):
     # fix random seed for reproducibility
     numpy.random.seed(seed)
     tf.set_random_seed(seed)
@@ -40,14 +41,22 @@ def rnn_network(learning_rate, epochs, batches, seed):
                   loss='mean_squared_error',
                   metrics=['accuracy'])
 
-    print("'\r{0}".format(model.summary()), end='')
-    model.fit(X_train, y_train, epochs=epochs, batch_size=batches)    #epochs 3, batch_size 64
-
-    combination = 0
-
-    saver = tf.train.Saver()
+    from datetime import datetime
+    now = datetime.utcnow().strftime("%Y%m%d%H%M%S")
     save_string = "imdb-rnn-" + str(combination) + "-" + str(learning_rate) + "-" + str(epochs) + "-" + str(
         batches) + "-" + str(seed)
+    root_logdir = "tf_logs"
+    logdir = "{}/{}-{}".format(root_logdir, save_string, now)
+    tensorboard = TensorBoard(log_dir=logdir)
+
+    print("'\r{0}".format(model.summary()), end='')
+    model.fit(X_train,
+              y_train,
+              epochs=epochs,  # 3
+              batch_size=batches,  # 64
+              callbacks=[tensorboard])
+
+    saver = tf.train.Saver()
     sess = backend.get_session()
     saver.save(sess, 'tmp/' + save_string + '/' + save_string + '.ckpt')
 
@@ -56,9 +65,5 @@ def rnn_network(learning_rate, epochs, batches, seed):
     print("Accuracy: %.2f%%" % (scores[1] * 100))
 
 
-def main(learning_rate, epochs, batches, seed):
-    rnn_network(learning_rate, epochs, batches, seed)
-
-
 if __name__ == "__main__":
-    rnn_network(0.01, 1, 64, 420)
+    rnn_network(0, 0.01, 1, 64, 420)

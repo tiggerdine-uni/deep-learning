@@ -108,7 +108,6 @@ def cnn_model_fn(features, labels, mode):
             mode=mode, loss=loss, eval_metric_ops=eval_metric_ops)
 
 
-# TODO add layers and activation_func
 def cnn(learning_rate, epochs, batches, seed, combination):
     global learning_r8
     learning_r8 = learning_rate
@@ -131,7 +130,6 @@ def cnn(learning_rate, epochs, batches, seed, combination):
     save_string = "mnist-cnn-" + str(combination) + "-" + str(learning_rate) + "-" + str(epochs) + "-" + str(batches) + "-" + str(seed)
 
     root_logdir = "tf_logs"
-    #TODO This is tensor board directory
     logdir = "{}/{}-{}".format(root_logdir, save_string, now)
 
     file_writer = tf.summary.FileWriter(logdir, tf.get_default_graph())
