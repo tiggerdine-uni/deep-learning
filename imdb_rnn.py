@@ -2,12 +2,14 @@ import os
 import numpy
 #uses keras which isnt in venv by default :)
 import tensorflow as tf
+from keras import backend
 from keras.datasets import imdb
 from keras.models import Sequential
 from keras.layers import Dense
 from keras.layers import LSTM
 from keras.layers.embeddings import Embedding
 from keras.preprocessing import sequence
+# from tensorflow import keras
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
@@ -34,10 +36,20 @@ def rnn_network(learning_rate, epochs, batches, seed):
     model.add(Dense(1, activation='sigmoid'))
 
     from keras.optimizers import Adam
-    model.compile(loss='mean_squared_error', optimizer=Adam(lr=learning_rate), metrics=['accuracy']) #lr0.001
+    model.compile(optimizer=Adam(lr=learning_rate),  # 0.001
+                  loss='mean_squared_error',
+                  metrics=['accuracy'])
 
     print("'\r{0}".format(model.summary()), end='')
     model.fit(X_train, y_train, epochs=epochs, batch_size=batches)    #epochs 3, batch_size 64
+
+    combination = 0
+
+    saver = tf.train.Saver()
+    save_string = "imdb-rnn-" + str(combination) + "-" + str(learning_rate) + "-" + str(epochs) + "-" + str(
+        batches) + "-" + str(seed)
+    sess = backend.get_session()
+    saver.save(sess, 'tmp/' + save_string + '/' + save_string + '.ckpt')
 
     # Final evaluation of the model
     scores = model.evaluate(X_test, y_test, verbose=0)
@@ -49,4 +61,4 @@ def main(learning_rate, epochs, batches, seed):
 
 
 if __name__ == "__main__":
-    rnn_network(0.01, 3, 64, 420)
+    rnn_network(0.01, 1, 64, 420)

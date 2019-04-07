@@ -139,7 +139,7 @@ def cnn(learning_rate, epochs, batches, seed, combination):
 
     # Create the Estimator
     mnist_classifier = tf.estimator.Estimator(
-        model_fn=cnn_model_fn, model_dir="tmp/" + save_string + "")
+        model_fn=cnn_model_fn, model_dir='tmp/' + save_string)
 
     # Set up logging for predictions
     # Log the values in the "Softmax" tensor with label "probabilities"
@@ -167,7 +167,7 @@ def cnn(learning_rate, epochs, batches, seed, combination):
 
 if __name__ == "__main__":
     # tf.app.run()
-    cnn(0.25, 10000, 200, 420, 0)
+    cnn(0.25, 1, 200, 420, 0)
 
 
 

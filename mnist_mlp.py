@@ -92,7 +92,7 @@ def mlp_network(layers, learning_rate, epochs, batches, activation_func, seed, c
                     file_writer.add_summary(summary, counter)
 
             #TODO Just manually copy paste the final 2 checkpoint files into a clear directory and rename
-            saver.save(sess, "tmp/" + save_string + "")
+            saver.save(sess, 'tmp/' + save_string + '/' + save_string + '.ckpt')
 
         acc_test = accuracy.eval(feed_dict={X: mnist.test.images, y: mnist.test.labels})
         print("\nTest Accuracy: {:3f}".format(acc_test))
