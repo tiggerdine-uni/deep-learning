@@ -74,7 +74,6 @@ def mlp_network(layers, learning_rate, epochs, batches, activation_func, seed, c
     merged_summary_op = tf.summary.merge_all()
     file_writer = tf.summary.FileWriter(logdir, tf.get_default_graph())
 
-    acc_trains = []
     with tf.Session() as sess:
         init.run()
         counter = 0
@@ -88,17 +87,14 @@ def mlp_network(layers, learning_rate, epochs, batches, activation_func, seed, c
 
                 # print("'\r{0}".format(epoch),
                 #       "Train Accuracy: {:3f}  Validation Accuracy: {:3f}".format(acc_train, acc_val), end='')
-                acc_trains.append(acc_train)
 
                 if counter % 10 == 0:
                     file_writer.add_summary(summary, counter)
 
             saver.save(sess, 'tmp/' + save_string + '/' + save_string + '.ckpt')
 
+        print("\nTrain Accuracy: {:.4f}".format(acc_train))
         acc_test = accuracy.eval(feed_dict={X: mnist.test.images, y: mnist.test.labels})
-        import numpy as np
-        mean_acc_train = np.mean(acc_trains)
-        print("\nMean Train Accuracy: {:.4f}".format(mean_acc_train))
         print("Test Accuracy: {:.4f}".format(acc_test))
 
     file_writer.close()
