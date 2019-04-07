@@ -74,6 +74,7 @@ def mlp_network(layers, learning_rate, epochs, batches, activation_func, seed, c
     merged_summary_op = tf.summary.merge_all()
     file_writer = tf.summary.FileWriter(logdir, tf.get_default_graph())
 
+    acc_trains = []
     with tf.Session() as sess:
         init.run()
         counter = 0
@@ -82,11 +83,12 @@ def mlp_network(layers, learning_rate, epochs, batches, activation_func, seed, c
                 counter += 1
                 X_batch, y_batch = mnist.train.next_batch(batch_size)
                 _, c, summary = sess.run([training_op, loss, merged_summary_op], feed_dict={X: X_batch, y: y_batch})
-                acc_train = train_accuracy.eval(feed_dict={X: X_batch, y: y_batch})
-                acc_val = validation_accuracy.eval(feed_dict={X: mnist.validation.images, y: mnist.validation.labels})
+                acc_train = accuracy.eval(feed_dict={X: X_batch, y: y_batch})
+                acc_val = accuracy.eval(feed_dict={X: mnist.validation.images, y: mnist.validation.labels})
 
                 # print("'\r{0}".format(epoch),
                 #       "Train Accuracy: {:3f}  Validation Accuracy: {:3f}".format(acc_train, acc_val), end='')
+                acc_trains.append(acc_train)
 
                 if counter % 10 == 0:
                     file_writer.add_summary(summary, counter)
@@ -94,7 +96,10 @@ def mlp_network(layers, learning_rate, epochs, batches, activation_func, seed, c
             saver.save(sess, 'tmp/' + save_string + '/' + save_string + '.ckpt')
 
         acc_test = accuracy.eval(feed_dict={X: mnist.test.images, y: mnist.test.labels})
-        print("\nTest Accuracy: {:3f}".format(acc_test))
+        import numpy as np
+        mean_acc_train = np.mean(acc_trains)
+        print("\nMean Train Accuracy: {:.4f}".format(mean_acc_train))
+        print("Test Accuracy: {:.4f}".format(acc_test))
 
     file_writer.close()
 
@@ -103,21 +108,21 @@ def main(learning_rate, epochs, batches):
     layers = 1
     seed = 420
 
-    # print("Perceptron Network")
-    # mlp_network(layers, learning_rate, epochs, batches, heavy_side, seed)
+    print("Perceptron Network")
+    mlp_network(layers, learning_rate, epochs, batches, heavy_side, seed, 0)
 
     # print("Sigmoid Network")
-    # mlp_network(layers, learning_rate, epochs, batches, tf.nn.sigmoid, seed)
+    # mlp_network(layers, learning_rate, epochs, batches, tf.nn.sigmoid, seed, 0)
 
-    print("Relu Network")
-    mlp_network(layers, learning_rate, epochs, batches, tf.nn.relu, seed, 0)
+    # print("Relu Network")
+    # mlp_network(layers, learning_rate, epochs, batches, tf.nn.relu, seed, 0)
 
     # print("Leaky Relu Network")
-    # mlp_network(layers, learning_rate, epochs, batches, leaky_relu, seed)
+    # mlp_network(layers, learning_rate, epochs, batches, leaky_relu, seed, 0)
 
     # print("Elu Network")
-    # mlp_network(layers, learning_rate, epochs, batches, tf.nn.elu, seed)
+    # mlp_network(layers, learning_rate, epochs, batches, tf.nn.elu, seed, 0)
 
 
 if __name__ == "__main__":
-    main(0.4, 1, 50)
+    main(0.1, 1, 100)
