@@ -104,14 +104,14 @@ def main(learning_rate, epochs, batches):
     layers = 1
     seed = 420
 
-    print("Perceptron Network")
-    mlp_network(layers, learning_rate, epochs, batches, heavy_side, seed, 0)
+    # print("Perceptron Network")
+    # mlp_network(layers, learning_rate, epochs, batches, heavy_side, seed, 0)
 
     # print("Sigmoid Network")
     # mlp_network(layers, learning_rate, epochs, batches, tf.nn.sigmoid, seed, 0)
 
-    # print("Relu Network")
-    # mlp_network(layers, learning_rate, epochs, batches, tf.nn.relu, seed, 0)
+    print("Relu Network")
+    mlp_network(layers, learning_rate, epochs, batches, tf.nn.relu, seed, 0)
 
     # print("Leaky Relu Network")
     # mlp_network(layers, learning_rate, epochs, batches, leaky_relu, seed, 0)
@@ -121,4 +121,4 @@ def main(learning_rate, epochs, batches):
 
 
 if __name__ == "__main__":
-    main(0.1, 1, 100)
+    main(0.6, 10, 50)
