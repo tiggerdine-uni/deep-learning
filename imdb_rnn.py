@@ -6,6 +6,7 @@ from keras import backend
 from keras.callbacks import TensorBoard
 from keras.datasets import imdb
 from keras.models import Sequential
+from keras.models import load_model
 from keras.layers import Dense
 from keras.layers import LSTM
 from keras.layers.embeddings import Embedding
@@ -63,9 +64,11 @@ def rnn_network(combination, learning_rate, epochs, batches, seed):
               callbacks=[tensorboard])
 
     model.save('tmp/' + save_string + '.ckpt')
+    #new_model = load_model('tmp/imdb-rnn-0-0.005-0-64-420.ckpt')
 
     # Final evaluation of the model
     scores = model.evaluate(X_test, y_test, verbose=0)
+    #scores = new_model.evaluate(X_test, y_test, verbose=0)
     print("Accuracy: %.2f%%" % (scores[1] * 100))
 
 
