@@ -11,6 +11,7 @@ from keras.layers import LSTM
 from keras.layers.embeddings import Embedding
 from keras.preprocessing import sequence
 # from tensorflow import keras
+from helpers import make_tmp
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
@@ -20,15 +21,7 @@ def rnn_network(combination, learning_rate, epochs, batches, seed):
     numpy.random.seed(seed)
     tf.set_random_seed(seed)
 
-    # Create directory
-    dir_name = 'tmp'
-
-    try:
-        # Create target Directory
-        os.mkdir(dir_name)
-        print("Directory ", dir_name, " Created ")
-    except FileExistsError:
-        print("Directory ", dir_name, " already exists")
+    make_tmp()
 
     # load the dataset but only keep the top n words, zero the rest
     top_words = 10000  # 5000
@@ -69,9 +62,7 @@ def rnn_network(combination, learning_rate, epochs, batches, seed):
               batch_size=batches,  # 64
               callbacks=[tensorboard])
 
-    saver = tf.train.Saver()
-    sess = backend.get_session()
-    saver.save(sess, dir_name + '/' + save_string + '/' + save_string + '.ckpt')
+    model.save('tmp/' + save_string + '.ckpt')
 
     # Final evaluation of the model
     scores = model.evaluate(X_test, y_test, verbose=0)
@@ -79,4 +70,4 @@ def rnn_network(combination, learning_rate, epochs, batches, seed):
 
 
 if __name__ == "__main__":
-    rnn_network(0, 0.001, 3, 64, 420)
+    rnn_network(0, 0.005, 0, 64, 420)

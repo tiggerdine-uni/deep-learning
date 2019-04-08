@@ -5,10 +5,14 @@ from tensorflow import keras
 
 import numpy as np
 
+from helpers import make_tmp
+
 
 def mlp_network(learning_rate, epochs, batches, seed, combination):
     np.random.seed(seed)
     tf.set_random_seed(seed)
+
+    make_tmp()
 
     imdb = keras.datasets.imdb
 
@@ -79,9 +83,7 @@ def mlp_network(learning_rate, epochs, batches, seed, combination):
               callbacks=[tensorboard],
               verbose=1)
 
-    saver = tf.train.Saver()
-    sess = keras.backend.get_session()
-    saver.save(sess, 'tmp/' + save_string + '/' + save_string + '.ckpt')
+    model.save('tmp/' + save_string + '.ckpt')
 
     results = model.evaluate(test_data, test_labels)
 
@@ -89,7 +91,7 @@ def mlp_network(learning_rate, epochs, batches, seed, combination):
 
 
 if __name__ == "__main__":
-    mlp_network(0.001, 10, 512, 420, 0)
+    mlp_network(0.001, 0, 512, 420, 0)
 
 
 

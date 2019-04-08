@@ -3,7 +3,7 @@ import os
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
 
-from helpers import neuron_layer, heavy_side, leaky_relu
+from helpers import neuron_layer, heavy_side, leaky_relu, make_tmp
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
@@ -25,8 +25,10 @@ def two_hidden_layers(X, n_hidden1=300, n_hidden2=100, n_outputs=10, activation_
     return logits
 
 
-def mlp_network(layers, learning_rate, epochs, batches, activation_func, seed, combination):
+def mlp_network(combination, layers, learning_rate, epochs, batches, activation_func, seed):
     tf.random.set_random_seed(seed)
+
+    make_tmp()
 
     n_inputs = 28 * 28
     learning_rate = learning_rate
@@ -91,7 +93,8 @@ def mlp_network(layers, learning_rate, epochs, batches, activation_func, seed, c
                 if counter % 10 == 0:
                     file_writer.add_summary(summary, counter)
 
-            saver.save(sess, 'tmp/' + save_string + '/' + save_string + '.ckpt')
+            saver.save(sess, 'tmp/' + save_string + '.ckpt')
+            os.remove('tmp/checkpoint')
 
         print("\nTrain Accuracy: {:.4f}".format(acc_train))
         acc_test = accuracy.eval(feed_dict={X: mnist.test.images, y: mnist.test.labels})
@@ -99,26 +102,31 @@ def mlp_network(layers, learning_rate, epochs, batches, activation_func, seed, c
 
     file_writer.close()
 
+    with tf.Session() as sess2:
+        saver.restore(sess2, 'tmp/' + save_string + '.ckpt')
+        acc_test = accuracy.eval(feed_dict={X: mnist.test.images, y: mnist.test.labels})
+        print("Test Accuracy: {:.4f}".format(acc_test))
+
 
 def main(learning_rate, epochs, batches):
     layers = 1
     seed = 420
 
-    # print("Perceptron Network")
-    # mlp_network(layers, learning_rate, epochs, batches, heavy_side, seed, 0)
+    print("Perceptron Network")
+    mlp_network(0, layers, learning_rate, epochs, batches, heavy_side, seed)
 
     # print("Sigmoid Network")
-    # mlp_network(layers, learning_rate, epochs, batches, tf.nn.sigmoid, seed, 0)
+    # mlp_network(0, layers, learning_rate, epochs, batches, tf.nn.sigmoid, seed)
 
     # print("Relu Network")
-    # mlp_network(layers, learning_rate, epochs, batches, tf.nn.relu, seed, 0)
+    # mlp_network(0, layers, learning_rate, epochs, batches, tf.nn.relu, seed)
 
     # print("Leaky Relu Network")
-    # mlp_network(layers, learning_rate, epochs, batches, leaky_relu, seed, 0)
+    # mlp_network(0, layers, learning_rate, epochs, batches, leaky_relu, seed)
 
-    print("Elu Network")
-    mlp_network(layers, learning_rate, epochs, batches, tf.nn.elu, seed, 0)
+    # print("Elu Network")
+    # mlp_network(0, layers, learning_rate, epochs, batches, tf.nn.elu, seed)
 
 
 if __name__ == "__main__":
-    main(0.6, 10, 100)
+    main(0.6, 1, 50)

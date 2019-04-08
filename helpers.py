@@ -1,3 +1,5 @@
+import os
+
 import tensorflow as tf
 import matplotlib.pyplot as plt
 import numpy as np
@@ -35,3 +37,14 @@ def heavy_side(z, name=None):
 
 def leaky_relu(z, name=None):
     return tf.maximum(0.2 * z, z, name=name)
+
+
+def make_tmp():
+    # Create directory
+    dir_name = 'tmp'
+    try:
+        # Create target Directory
+        os.mkdir(dir_name)
+        print("Directory ", dir_name, " Created ")
+    except FileExistsError:
+        print("Directory ", dir_name, " already exists")

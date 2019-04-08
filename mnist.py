@@ -8,19 +8,19 @@ def network_one(learning_rate, epochs, batches, seed):
     print("Convolutional neural network")
     print(
         "Combination three with learning rate: {} epochs: {} and batch size: {}".format(learning_rate, epochs, batches))
-    cnn(learning_rate, epochs, batches, seed, 1)
+    cnn(1, learning_rate, epochs, batches, seed)
 
 
 def network_two(learning_rate, epochs, batches, seed):
     print("Perceptron network with ReLU activation function")
     print("Combination two with learning rate: {} epochs: {} and batch size: {}".format(learning_rate, epochs, batches))
-    mlp_network(1, learning_rate, epochs, batches, tf.nn.relu, seed, 2)
+    mlp_network(2, 1, learning_rate, epochs, batches, tf.nn.relu, seed)
 
 
 def network_three(learning_rate, epochs, batches, seed):
     print("Perceptron network with sigmoid activation function")
     print("Combination one with learning rate: {} epochs: {} and batch size: {}".format(learning_rate, epochs, batches))
-    mlp_network(1, learning_rate, epochs, batches, tf.nn.sigmoid, 3)
+    mlp_network(3, 1, learning_rate, epochs, batches, tf.nn.sigmoid, seed)
 
 
 def main(combination, learning_rate, epochs, batches, seed):
