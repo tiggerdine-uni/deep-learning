@@ -20,6 +20,16 @@ def rnn_network(combination, learning_rate, epochs, batches, seed):
     numpy.random.seed(seed)
     tf.set_random_seed(seed)
 
+    # Create directory
+    dir_name = 'tmp'
+
+    try:
+        # Create target Directory
+        os.mkdir(dir_name)
+        print("Directory ", dir_name, " Created ")
+    except FileExistsError:
+        print("Directory ", dir_name, " already exists")
+
     # load the dataset but only keep the top n words, zero the rest
     top_words = 10000  # 5000
     (X_train, y_train), (X_test, y_test) = imdb.load_data(num_words=top_words)
@@ -61,7 +71,7 @@ def rnn_network(combination, learning_rate, epochs, batches, seed):
 
     saver = tf.train.Saver()
     sess = backend.get_session()
-    saver.save(sess, 'tmp/' + save_string + '/' + save_string + '.ckpt')
+    saver.save(sess, dir_name + '/' + save_string + '/' + save_string + '.ckpt')
 
     # Final evaluation of the model
     scores = model.evaluate(X_test, y_test, verbose=0)
