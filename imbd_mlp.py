@@ -32,13 +32,6 @@ def mlp_network(combination, learning_rate, epochs, batches, seed):
     word_index["<UNK>"] = 2  # unknown
     word_index["<UNUSED>"] = 3
 
-    reverse_word_index = dict([(value, key) for (key, value) in word_index.items()])
-
-    def decode_review(text):
-        return ' '.join([reverse_word_index.get(i, '?') for i in text])
-
-    # decode_review(train_data[0])
-
     train_data = keras.preprocessing.sequence.pad_sequences(train_data,
                                                             value=word_index["<PAD>"],
                                                             padding='post',
