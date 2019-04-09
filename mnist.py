@@ -28,11 +28,11 @@ def main(combination, learning_rate, epochs, batches, seed):
     print("Seed: {}".format(seed))
 
     if int(combination) == 1:
-        network_one(learning_rate, epochs, batches, seed, combination)
+        network_one(learning_rate, epochs, batches, seed)
     if int(combination) == 2:
-        network_two(learning_rate, epochs, batches, seed, combination)
+        network_two(learning_rate, epochs, batches, seed)
     if int(combination) == 3:
-        network_three(learning_rate, epochs, batches, seed, combination)
+        network_three(learning_rate, epochs, batches, seed)
 
     print("Done!")
 
