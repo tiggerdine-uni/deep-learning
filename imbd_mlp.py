@@ -89,7 +89,7 @@ def mlp_network(combination, learning_rate, epochs, batches, seed):
 
     results = model.evaluate(test_data, test_labels)
 
-    train = history.history['acc'][-1]
+    train = round(history.history['acc'][-1], 4)
     test = round(results[1], 4)
 
     print('train: ', train, ' - test: ', test)
@@ -118,7 +118,7 @@ def doMagic():
 
 
 if __name__ == "__main__":
-    # mlp_network(0, 0.001, 40, 512, 420)
+    # mlp_network(0, 0.00075, 40, 512, 420)
     doMagic()
 
 
