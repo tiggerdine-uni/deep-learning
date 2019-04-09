@@ -1,5 +1,7 @@
 from __future__ import absolute_import, division, print_function
 
+import os
+
 import tensorflow as tf
 from tensorflow import keras
 
@@ -8,7 +10,7 @@ import numpy as np
 from helpers import make_tmp
 
 
-def mlp_network(learning_rate, epochs, batches, seed, combination):
+def mlp_network(combination, learning_rate, epochs, batches, seed):
     np.random.seed(seed)
     tf.set_random_seed(seed)
 
@@ -75,7 +77,7 @@ def mlp_network(learning_rate, epochs, batches, seed, combination):
     y_val = train_labels[:10000]
     partial_y_train = train_labels[10000:]
 
-    model.fit(partial_x_train,
+    history = model.fit(partial_x_train,
               partial_y_train,
               epochs=epochs,  # 40
               batch_size=batches,  # 512
@@ -87,11 +89,37 @@ def mlp_network(learning_rate, epochs, batches, seed, combination):
 
     results = model.evaluate(test_data, test_labels)
 
-    print(results)
+    train = history.history['acc'][-1]
+    test = round(results[1], 4)
+
+    print('train: ', train, ' - test: ', test)
+
+    return train, test
+
+
+def doMagic():
+    learning_rates = [0.00025, 0.0005, 0.001, 0.002, 0.004]
+    epochs = [10, 20, 40, 80, 160]
+    batchess = [128, 256, 512, 1024, 2048]
+    if os.path.exists('tmp/magic.csv'):
+        os.remove('tmp/magic.csv')
+    f = open('tmp/magic.csv', 'w')
+    f.write('learning_rate,epoch,batches,train,test\n')
+    for learning_rate in learning_rates:
+        for epoch in epochs:
+            for batches in batchess:
+                train, test = mlp_network(0, learning_rate, epoch, batches, 420)
+                f.write(str(learning_rate) + ',' +
+                        str(epoch) + ',' +
+                        str(batches) + ',' +
+                        str(train) + ',' +
+                        str(test) + '\n')
+    f.close()
 
 
 if __name__ == "__main__":
-    mlp_network(0.001, 0, 512, 420, 0)
+    # mlp_network(0, 0.001, 40, 512, 420)
+    doMagic()
 
 
 

@@ -3,16 +3,16 @@ import argparse
 from imbd_mlp import mlp_network
 from imdb_rnn import rnn_network
 
-def network_one(learning_rate, epochs, batches, seed, combination):
+def network_one(combination, learning_rate, epochs, batches, seed):
     print("Recurrent Neural Network")
     print("Combination One with learning rate: {} epochs: {} and batch size: {}".format(learning_rate, epochs, batches))
     rnn_network(combination, learning_rate, epochs, batches, seed)
 
 
-def network_two(learning_rate, epochs, batches, seed, combination):
+def network_two(combination, learning_rate, epochs, batches, seed):
     print("Perceptron network with pooling and ReLU activation")
     print("Combination Two with learning rate: {} epochs: {} and batch size: {}".format(learning_rate, epochs, batches))
-    mlp_network(learning_rate, epochs, batches, seed, combination)
+    mlp_network(combination, learning_rate, epochs, batches, seed)
 
 
 def main(combination, learning_rate, epochs, batches, seed):
@@ -20,9 +20,9 @@ def main(combination, learning_rate, epochs, batches, seed):
     print("Seed: {}".format(seed))
 
     if int(combination) == 1:
-        network_one(learning_rate, epochs, batches, seed, combination)
+        network_one(combination, learning_rate, epochs, batches, seed)
     if int(combination) == 2:
-        network_two(learning_rate, epochs, batches, seed, combination)
+        network_two(combination, learning_rate, epochs, batches, seed)
 
     print("Done!")
 
