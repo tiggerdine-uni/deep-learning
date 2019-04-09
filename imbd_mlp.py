@@ -59,7 +59,7 @@ def mlp_network(combination, learning_rate, epochs, batches, seed):
 
     from datetime import datetime
     now = datetime.utcnow().strftime("%Y%m%d%H%M%S")
-    save_string = "imdb-mlp-" + str(combination) + "-" + str(learning_rate) + "-" + str(epochs) + "-" + str(batches) + "-" + str(seed)
+    save_string = "imdb-" + str(combination) + "-" + str(learning_rate) + "-" + str(epochs) + "-" + str(batches) + "-" + str(seed)
     root_logdir = "logs"
     logdir = "{}/{}-{}".format(root_logdir, save_string, now)
     tensorboard = keras.callbacks.TensorBoard(log_dir=logdir)
