@@ -92,6 +92,11 @@ def cnn(combination, learning_rate, epochs, batches, seed):
     print('Test loss:', score[0])
     print('Test accuracy:', score[1])
 
+    score = model.evaluate(x_train, y_train, verbose=0)
+    # score = new_model.evaluate(x_test, y_test, verbose=0)
+    print('Test loss:', score[0])
+    print('Test accuracy:', score[1])
+
 
 if __name__ == "__main__":
     cnn(0, 1, 0, 128, 420)

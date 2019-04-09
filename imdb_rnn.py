@@ -69,7 +69,11 @@ def rnn_network(combination, learning_rate, epochs, batches, seed):
     # Final evaluation of the model
     scores = model.evaluate(X_test, y_test, verbose=0)
     #scores = new_model.evaluate(X_test, y_test, verbose=0)
-    print("Accuracy: %.2f%%" % (scores[1] * 100))
+    print("Test Accuracy: %.2f%%" % (scores[1] * 100))
+
+    scores = model.evaluate(X_train, y_train, verbose=0)
+    # scores = new_model.evaluate(X_test, y_test, verbose=0)
+    print("Train Accuracy: %.2f%%" % (scores[1] * 100))
 
 
 if __name__ == "__main__":
