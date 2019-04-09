@@ -63,7 +63,7 @@ def rnn_network(combination, learning_rate, epochs, batches, seed):
               batch_size=batches,  # 64
               callbacks=[tensorboard])
 
-    model.save('tmp/' + save_string + '.ckpt')
+    model.save('logs/' + save_string + '.ckpt')
     #new_model = load_model('tmp/imdb-rnn-0-0.005-0-64-420.ckpt')
 
     # Final evaluation of the model

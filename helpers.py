@@ -41,7 +41,7 @@ def leaky_relu(z, name=None):
 
 def make_tmp():
     # Create directory
-    dir_name = 'tmp'
+    dir_name = 'logs'
     try:
         # Create target Directory
         os.mkdir(dir_name)

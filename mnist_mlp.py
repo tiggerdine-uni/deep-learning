@@ -93,8 +93,8 @@ def mlp_network(combination, layers, learning_rate, epochs, batches, activation_
                 if counter % 10 == 0:
                     file_writer.add_summary(summary, counter)
 
-            saver.save(sess, 'tmp/' + save_string + '.ckpt')
-            os.remove('tmp/checkpoint')
+            saver.save(sess, 'logs/' + save_string + '.ckpt')
+            os.remove('logs/checkpoint')
 
         print("\nTrain Accuracy: {:.4f}".format(acc_train))
         acc_test = accuracy.eval(feed_dict={X: mnist.test.images, y: mnist.test.labels})
@@ -103,7 +103,7 @@ def mlp_network(combination, layers, learning_rate, epochs, batches, activation_
     file_writer.close()
 
     with tf.Session() as sess2:
-        saver.restore(sess2, 'tmp/' + save_string + '.ckpt')
+        saver.restore(sess2, 'logs/' + save_string + '.ckpt')
         acc_test = accuracy.eval(feed_dict={X: mnist.test.images, y: mnist.test.labels})
         print("Test Accuracy: {:.4f}".format(acc_test))
 

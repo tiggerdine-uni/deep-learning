@@ -78,7 +78,7 @@ def mlp_network(combination, learning_rate, epochs, batches, seed):
               callbacks=[tensorboard],
               verbose=1)
 
-    model.save('tmp/' + save_string + '.ckpt')
+    model.save('logs/' + save_string + '.ckpt')
 
     results = model.evaluate(test_data, test_labels)
 
@@ -111,8 +111,8 @@ def doMagic():
 
 
 if __name__ == "__main__":
-    # mlp_network(0, 0.00075, 40, 512, 420)
-    doMagic()
+    mlp_network(0, 0.00075, 40, 512, 420)
+    #doMagic()
 
 
 

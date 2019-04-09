@@ -83,7 +83,7 @@ def cnn(combination, learning_rate, epochs, batches, seed):
               callbacks=[tensorboard],
               validation_data=(x_test, y_test))
 
-    model.save('tmp/' + save_string + '.ckpt')
+    model.save('logs/' + save_string + '.ckpt')
 
     # new_model = keras.models.load_model('mnist-cnn-0-1-1-128-420.ckpt')
 
