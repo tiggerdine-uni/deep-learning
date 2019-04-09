@@ -72,7 +72,7 @@ def cnn(combination, learning_rate, epochs, batches, seed):
     now = datetime.utcnow().strftime("%Y%m%d%H%M%S")
     save_string = "mnist-cnn-" + str(combination) + "-" + str(learning_rate) + "-" + str(epochs) + "-" + str(
         batches) + "-" + str(seed)
-    root_logdir = "tf_logs"
+    root_logdir = "logs"
     logdir = "{}/{}-{}".format(root_logdir, save_string, now)
     tensorboard = keras.callbacks.TensorBoard(log_dir=logdir)
 
