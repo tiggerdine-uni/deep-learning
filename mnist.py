@@ -4,23 +4,23 @@ from mnist_cnn import cnn
 from mnist_mlp import *
 
 
-def network_one(learning_rate, epochs, batches, seed):
+def network_one(combination, learning_rate, epochs, batches, seed):
     print("Convolutional neural network")
     print(
         "Combination three with learning rate: {} epochs: {} and batch size: {}".format(learning_rate, epochs, batches))
-    cnn(1, learning_rate, epochs, batches, seed)
+    cnn(combination, learning_rate, epochs, batches, seed)
 
 
-def network_two(learning_rate, epochs, batches, seed):
+def network_two(combination, learning_rate, epochs, batches, seed):
     print("Perceptron network with ReLU activation function")
     print("Combination two with learning rate: {} epochs: {} and batch size: {}".format(learning_rate, epochs, batches))
-    mlp_network(2, 1, learning_rate, epochs, batches, tf.nn.relu, seed)
+    mlp_network(combination, 1, learning_rate, epochs, batches, tf.nn.relu, seed)
 
 
-def network_three(learning_rate, epochs, batches, seed):
+def network_three(combination,learning_rate, epochs, batches, seed):
     print("Perceptron network with sigmoid activation function")
     print("Combination one with learning rate: {} epochs: {} and batch size: {}".format(learning_rate, epochs, batches))
-    mlp_network(3, 1, learning_rate, epochs, batches, tf.nn.sigmoid, seed)
+    mlp_network(combination, 1, learning_rate, epochs, batches, tf.nn.sigmoid, seed)
 
 
 def main(combination, learning_rate, epochs, batches, seed):
@@ -28,11 +28,11 @@ def main(combination, learning_rate, epochs, batches, seed):
     print("Seed: {}".format(seed))
 
     if int(combination) == 1:
-        network_one(learning_rate, epochs, batches, seed)
+        network_one(combination,learning_rate, epochs, batches, seed)
     if int(combination) == 2:
-        network_two(learning_rate, epochs, batches, seed)
+        network_two(combination, learning_rate, epochs, batches, seed)
     if int(combination) == 3:
-        network_three(learning_rate, epochs, batches, seed)
+        network_three(combination,learning_rate, epochs, batches, seed)
 
     print("Done!")
 
@@ -62,4 +62,4 @@ if __name__ == "__main__":
     batches = check_param_is_numeric("batches", args.batches)
     seed = check_param_is_numeric("seed", args.seed)
 
-    main(combination, learning_rate, int(epochs), int(batches), int(seed))
+    main(int(combination), learning_rate, int(epochs), int(batches), int(seed))

@@ -52,4 +52,4 @@ if __name__ == "__main__":
     batches = check_param_is_numeric("batches", args.batches)
     seed = check_param_is_numeric("seed", args.seed)
 
-    main(combination, learning_rate, int(epochs), int(batches), int(seed))
+    main(int(combination), learning_rate, int(epochs), int(batches), int(seed))
